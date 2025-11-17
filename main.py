@@ -13,7 +13,7 @@ class DataItem:
     self.quote = line[8]
     pass 
 
-def Main():
+def main():
 
   file = "MOCK_DATA.csv"
   counter = 0
@@ -22,13 +22,17 @@ def Main():
     reader = csv.reader(csvfile)
     for row in reader:
       if(counter == 0): # dont read in the line of labels
+        counter += 1
         continue
+
       # create a data item from row
+      data = DataItem(row)
+      
       # feed the appropriate field into the hash function to get a key
       # mod the key value by the hash table length
       # try to insert DataItem into hash table
       # handle any collisions
-      count += 1
+      counter += 1
 
 if __name__ == "__main__":
     main()
