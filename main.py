@@ -20,6 +20,76 @@ def hashKey(key, size):
     num = num + (ord(key[i]) * (31 ** (length - i - 1)))
   return num % size
 
+# def hashName(file, hash_table):
+#   counter = 0
+#   unused_bucket = 0
+#   collision_count = 0
+
+
+#   with open(file, 'r', newline='', encoding="utf8") as csvfile:
+#     reader = csv.reader(csvfile)
+#     size = sum(1 for row in reader) - 1 # get number of lines in file for hash table size
+#     unused_bucket = size
+#     hash_table = [[] for _ in range(size)] # initialize hash table with no values
+#     csvfile.seek(0) # reset file read position to beginning
+#     for row in reader:
+#       if(counter == 0): # dont read in the line of labels
+#         counter += 1
+#         continue
+
+#       # create a data item from row
+#       data = DataItem(row)
+    
+#       # feed the appropriate field into the hash function to get a key
+#       # mod the key value by the hash table length
+#       key = hashKey(data.movie_name, size)
+#       # try to insert DataItem into hash table
+#       if(hash_table[key] == []): # if bucket is empty
+#         unused_bucket -= 1
+#         hash_table[key] = [data]
+#       else:
+#         hash_table[key].append(data)
+#         collision_count += 1
+#       # handle any collisions
+#       counter += 1
+
+#   return unused_bucket, collision_count
+
+# def hashQuote(file, hash_table):
+#   counter = 0
+#   unused_bucket = 0
+#   collision_count = 0
+
+
+#   with open(file, 'r', newline='', encoding="utf8") as csvfile:
+#     reader = csv.reader(csvfile)
+#     size = sum(1 for row in reader) - 1 # get number of lines in file for hash table size
+#     unused_bucket = size
+#     hash_table = [[] for _ in range(size)] # initialize hash table with no values
+#     csvfile.seek(0) # reset file read position to beginning
+#     for row in reader:
+#       if(counter == 0): # dont read in the line of labels
+#         counter += 1
+#         continue
+
+#       # create a data item from row
+#       data = DataItem(row)
+    
+#       # feed the appropriate field into the hash function to get a key
+#       # mod the key value by the hash table length
+#       key = hashKey(data.quote, size)
+#       # try to insert DataItem into hash table
+#       if(hash_table[key] == []): # if bucket is empty
+#         unused_bucket -= 1
+#         hash_table[key] = [data]
+#       else:
+#         hash_table[key].append(data)
+#         collision_count += 1
+#       # handle any collisions
+#       counter += 1
+
+#   return unused_bucket, collision_count
+
 def hashName(file, hash_table):
   counter = 0
   unused_bucket = 0
@@ -28,9 +98,9 @@ def hashName(file, hash_table):
 
   with open(file, 'r', newline='', encoding="utf8") as csvfile:
     reader = csv.reader(csvfile)
-    size = sum(1 for row in reader) - 1 # get number of lines in file for hash table size
+    size = int((sum(1 for row in reader) - 1) * 1.3) # get number of lines in file for hash table size
     unused_bucket = size
-    hash_table = [[] for _ in range(size)] # initialize hash table with no values
+    hash_table = [None] * size # initialize hash table with no values
     csvfile.seek(0) # reset file read position to beginning
     for row in reader:
       if(counter == 0): # dont read in the line of labels
@@ -43,14 +113,20 @@ def hashName(file, hash_table):
       # feed the appropriate field into the hash function to get a key
       # mod the key value by the hash table length
       key = hashKey(data.movie_name, size)
+      move = 0
       # try to insert DataItem into hash table
-      if(hash_table[key] == []): # if bucket is empty
-        unused_bucket -= 1
-        hash_table[key] = [data]
-      else:
-        hash_table[key].append(data)
-        collision_count += 1
+      while(move != size):
+        if(hash_table[key] == None):
+          unused_bucket -= 1
+          hash_table.insert(key, data)
+          break
+        else:
+          move += 1
+          collision_count += 1
+          key = (key + 1) % size
       # handle any collisions
+      if(move == size):
+        print("Hash Table Full")
       counter += 1
 
   return unused_bucket, collision_count
@@ -63,9 +139,9 @@ def hashQuote(file, hash_table):
 
   with open(file, 'r', newline='', encoding="utf8") as csvfile:
     reader = csv.reader(csvfile)
-    size = sum(1 for row in reader) - 1 # get number of lines in file for hash table size
+    size = int((sum(1 for row in reader) - 1) * 1.3) # get number of lines in file for hash table size
     unused_bucket = size
-    hash_table = [[] for _ in range(size)] # initialize hash table with no values
+    hash_table = [None] * size # initialize hash table with no values
     csvfile.seek(0) # reset file read position to beginning
     for row in reader:
       if(counter == 0): # dont read in the line of labels
@@ -78,14 +154,20 @@ def hashQuote(file, hash_table):
       # feed the appropriate field into the hash function to get a key
       # mod the key value by the hash table length
       key = hashKey(data.quote, size)
+      move = 0
       # try to insert DataItem into hash table
-      if(hash_table[key] == []): # if bucket is empty
-        unused_bucket -= 1
-        hash_table[key] = [data]
-      else:
-        hash_table[key].append(data)
-        collision_count += 1
+      while(move != size):
+        if(hash_table[key] == None):
+          unused_bucket -= 1
+          hash_table.insert(key, data)
+          break
+        else:
+          move += 1
+          collision_count += 1
+          key = (key + 1) % size
       # handle any collisions
+      if(move == size):
+        print("Hash Table Full")
       counter += 1
 
   return unused_bucket, collision_count
