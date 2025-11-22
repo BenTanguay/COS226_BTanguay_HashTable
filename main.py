@@ -14,9 +14,11 @@ class DataItem:
     pass 
 
 def hashKey(key, size):
-  num = 0
+  num = 1
   for char in key:
-    num += ord(char)
+    if(ord(char) != 0):
+      num *= ord(char)
+  num = num // 1299709 # divide by a large prime number
   return num % size
 
 def hashName(file, hash_table):
