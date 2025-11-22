@@ -14,14 +14,10 @@ class DataItem:
     pass 
 
 def hashKey(key, size):
-  num = 1
-  for char in key:
-    if(ord(char) != 0):
-      num *= ord(char)
-  num = num // 1299709 # divide by a large prime number
-  for char in key:
-    num += (ord(char)^3) # add the cube of each character's ASCII value
-  num = num // 15485863 # divide by another large prime number
+  num = 0
+  length = len(key)
+  for i in range(length):
+    num = num + (ord(key[i]) * (31 ** (length - i - 1)))
   return num % size
 
 def hashName(file, hash_table):
