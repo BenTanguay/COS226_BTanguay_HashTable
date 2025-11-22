@@ -19,6 +19,9 @@ def hashKey(key, size):
     if(ord(char) != 0):
       num *= ord(char)
   num = num // 1299709 # divide by a large prime number
+  for char in key:
+    num += (ord(char)^3) # add the cube of each character's ASCII value
+  num = num // 15485863 # divide by another large prime number
   return num % size
 
 def hashName(file, hash_table):
