@@ -1,3 +1,8 @@
+# main.py
+# Created by: Benjamin Tanguay
+# Date: 11/22/2025
+# Description: This program reads in a CSV file of movie data and creates two hash tables using different fields as keys.
+
 import csv, time
 
 class DataItem:
